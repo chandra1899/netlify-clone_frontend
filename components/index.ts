@@ -1,5 +1,11 @@
 import DeployForm from './DeployForm'
+import Header from './Header'
+import PrevDeploys from './PrevDeploys'
+import PrevDeploy from './PrevDeploy'
 
 export {
-    DeployForm
+    DeployForm,
+    Header,
+    PrevDeploys,
+    PrevDeploy
 }
