@@ -1,10 +1,27 @@
 "use client"
 import React, { useState } from 'react'
 import Image from "next/image";
+import axios from 'axios';
 
 const PrevDeploy = () => {
   const [redeploying, setRedeploying] = useState(false)
   const [status, setStatus] = useState("deployed")
+  const redeploy =async () => {
+    const id = "co64i"
+    setStatus("waiting...")
+    setRedeploying(true)
+    await axios.post("http://localhost:3000/redeploy",{
+      id ,repoUrl : "https://github.com/chandra1899/react-boilerPlate-code.git"
+    })
+
+    const interval = setInterval(async () => {
+      const statusRes = await axios.get(`http://localhost:3000/status?id=${id}`)
+      setStatus(statusRes.data.status)
+      if(statusRes.data.status == "deployed"){
+        clearInterval(interval)
+      }
+    }, 1500)
+  }
   return (
     <div className='flex flex-row justify-between items-center p-2 m-4 w-[40vw]'>
       <div className='flex flex-row justify-center items-center'>
@@ -39,7 +56,7 @@ const PrevDeploy = () => {
         src={"/refresh.png"}
         alt='refresh'
         className='cursor-pointer rounded-full hover:bg-slate-800 p-1'
-        onClick={() => setRedeploying(true)}
+        onClick={() => redeploy()}
       />
         }
       <Image
