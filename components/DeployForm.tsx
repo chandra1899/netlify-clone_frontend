@@ -3,11 +3,7 @@ import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 
-const getProjectName = (url: string): string => {
-  const projectNameWithGit = url.split('/').pop();
-  const projectName = projectNameWithGit ? projectNameWithGit.replace('.git', '') : '';
-  return projectName;
-}
+
 
 const DeployForm = () => {
   const {data : session} = useSession()
@@ -16,17 +12,10 @@ const DeployForm = () => {
     const deployRepo = async () => {
       setStatus("uploading...")
       const res = await axios.post("http://localhost:3000/deploy", {
-        repoUrl
+        repoUrl,
+        email : session?.user?.email
       })
-
-      const res2 = await axios.post("/createdeployment", {
-        email : session?.user?.email,
-        deploymentId : res.data.id,
-        status : "uploading...",
-        githubLink : repoUrl,
-        deploymentLink : `${res.data.id}.example.com/index.html`,
-        deploymentname : getProjectName(repoUrl)
-      })
+      
       // console.log(res);
       const interval = setInterval(async () => {
         const statusRes = await axios.get(`http://localhost:3000/status?id=${res.data.id}`)

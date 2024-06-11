@@ -1,9 +1,8 @@
 import mongoose ,{Schema, models} from 'mongoose'
 
 const deploymentSchema=new Schema({
-    email:{
+    userEmail:{
         type:String,
-        unique:true,
         required:true
         },
     deploymentname:{
@@ -17,11 +16,10 @@ const deploymentSchema=new Schema({
     },
     status : {
         type : String,
-        enum : ["error", "uploading...", "uploaded", "building...", "build", "deploying...", "deployed"]
+        enum : ["error", "uploading", "uploaded", "building", "build", "deploying", "deployed"]
     },
-    githubLink : {
+    repoUrl : {
         type : String,
-        unique: true,
         required : true
     },
     deploymentLink : {
