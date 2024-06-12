@@ -11,12 +11,12 @@ const deploymentSchema=new Schema({
         },
     deploymentId : {
         type : String,
-        unique: true,
+        unique : true,
         required : true
     },
     status : {
         type : String,
-        enum : ["error", "uploading", "uploaded", "building", "build", "deploying", "deployed"]
+        enum : ["error", "uploading", "uploaded", "building", "build", "deploying", "deployed","in queue"]
     },
     repoUrl : {
         type : String,
