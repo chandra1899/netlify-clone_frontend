@@ -13,14 +13,14 @@ const DeployForm = () => {
     const deployRepo = async () => {
       setBlur(true)
       setStatus("uploading...")
-      const res = await axios.post("http://localhost:3000/deploy", {
+      const res = await axios.post(`${process.env.STATUS_AND_DEPLOY_URL}/deploy`, {
         repoUrl,
         email : session?.user?.email
       })
       
       // console.log(res);
       const interval = setInterval(async () => {
-        const statusRes = await axios.get(`http://localhost:3000/status?id=${res.data.id}`)
+        const statusRes = await axios.get(`${process.env.STATUS_AND_DEPLOY_URL}/status?id=${res.data.id}`)
         setStatus(statusRes.data.status)
         if(statusRes.data.status == "deployed"){
           setRepoUrl("")

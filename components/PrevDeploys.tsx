@@ -21,7 +21,7 @@ const PrevDeploys = () => {
       }) 
       if(res.status === 200){
           let data = await res.json()
-          console.log(data.deployments);
+          // console.log(data.deployments);
           
           if(data.deployments){
             setDeployments(data.deployments)

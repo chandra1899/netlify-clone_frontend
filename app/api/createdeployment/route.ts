@@ -4,13 +4,13 @@ import Deployment from '@/models/deployment'
 
 export async function POST(req:Request){
     try {
-        console.log('hi');
+        // console.log('hi');
         
         const {email, deploymentId, status, githubLink, deploymentLink, deploymentname}=await req.json()
-        console.log(email, deploymentId, status, githubLink, deploymentLink, deploymentname)
+        // console.log(email, deploymentId, status, githubLink, deploymentLink, deploymentname)
         await connectMongoDB()
         let deploy = await Deployment.create({userEmail : email, deploymentId, status, repoUrl : githubLink, deploymentLink, deploymentname})
-        console.log("deploy", deploy);
+        // console.log("deploy", deploy);
         
         return NextResponse.json({},{status:200})
     } catch (error) {

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { signOut } from 'next-auth/react';
 
 const Header = ({session} : any) => {
-    console.log(session);
+    // console.log(session);
     
   return (
     <div className='flex flex-row justify-between items-center  w-[100vw] top-4 z-[1] fixed'>

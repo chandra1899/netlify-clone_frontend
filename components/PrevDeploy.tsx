@@ -9,12 +9,12 @@ const PrevDeploy = ({deployment} : any) => {
   const redeploy =async () => {
     setStatus("waiting...")
     setRedeploying(true)
-    await axios.post("http://localhost:3000/redeploy",{
+    await axios.post(`${process.env.STATUS_AND_DEPLOY_URL}/redeploy`,{
       id : deployment.deploymentId
     })
 
     const interval = setInterval(async () => {
-      const statusRes = await axios.get(`http://localhost:3000/status?id=${deployment.deploymentId}`)
+      const statusRes = await axios.get(`${process.env.STATUS_AND_DEPLOY_URL}/status?id=${deployment.deploymentId}`)
       setStatus(statusRes.data.status)
       if(statusRes.data.status == "deployed" || statusRes.data.status == "error"){
         setRedeploying(false)

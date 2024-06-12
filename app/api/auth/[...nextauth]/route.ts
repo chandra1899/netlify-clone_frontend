@@ -27,7 +27,7 @@ export const authOptions = {
           email : info.user.email
         })
       }
-      console.log(info);
+      // console.log(info);
       return info.user
     }
   }
