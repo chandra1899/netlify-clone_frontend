@@ -3,27 +3,27 @@ import React, { useState } from 'react'
 import Image from "next/image";
 import axios from 'axios';
 
-const PrevDeploy = () => {
+const PrevDeploy = ({deployment} : any) => {
   const [redeploying, setRedeploying] = useState(false)
-  const [status, setStatus] = useState("deployed")
+  const [status, setStatus] = useState(deployment.status)
   const redeploy =async () => {
-    const id = "co64i"
     setStatus("waiting...")
     setRedeploying(true)
     await axios.post("http://localhost:3000/redeploy",{
-      id ,repoUrl : "https://github.com/chandra1899/react-boilerPlate-code.git"
+      id : deployment.deploymentId
     })
 
     const interval = setInterval(async () => {
-      const statusRes = await axios.get(`http://localhost:3000/status?id=${id}`)
+      const statusRes = await axios.get(`http://localhost:3000/status?id=${deployment.deploymentId}`)
       setStatus(statusRes.data.status)
-      if(statusRes.data.status == "deployed"){
+      if(statusRes.data.status == "deployed" || statusRes.data.status == "error"){
+        setRedeploying(false)
         clearInterval(interval)
       }
     }, 1500)
   }
   return (
-    <div className='flex flex-row justify-between items-center p-2 m-4 w-[40vw]'>
+    <div className='flex flex-row justify-between items-center p-2 m-4 w-[50vw]'>
       <div className='flex flex-row justify-center items-center'>
       <Image
         height={25}
@@ -31,16 +31,17 @@ const PrevDeploy = () => {
         src={"/openlink.png"}
         alt='openLink'
         className='cursor-pointer '
+        onClick={() => window.open(deployment.deploymentLink, '_blank')}
       />
-        <p className='mx-3  font-medium'>socialDraft</p>
+        <p className='mx-3  font-medium'>{deployment.deploymentname}</p>
       </div>
         <div className='flex flex-row justify-center items-center'>
             <p>id : </p>
-            <p className='bg-slate-800 p-1 px-2 text-[0.9rem] text-violet-500 rounded-lg ml-1'> 45sdf2</p>
+            <p className='bg-slate-800 p-1 px-2 text-[0.9rem] text-violet-500 rounded-lg ml-1'> {deployment.deploymentId}</p>
         </div>
         <div className='flex flex-row justify-center items-center'>
             <p>status : </p>
-            <p className={`bg-slate-800 p-1 px-2 ${status == 'deployed'? 'text-green-500 ':'text-yellow-400'} text-[0.9rem] rounded-lg ml-1`}> {status}</p>
+            <p className={`bg-slate-800 p-1 px-2 ${status == 'deployed'? 'text-green-500 ':status == 'error'?'text-red-600':'text-yellow-400'} text-[0.9rem] rounded-lg ml-1`}> {status}</p>
         </div>
         {redeploying ? 
       <Image
