@@ -2,8 +2,9 @@ import { connectMongoDB } from "@/config/mongoose"
 import User from "@/models/user"
 import NextAuth from "next-auth"
 import GithubProvider from "next-auth/providers/github"
+import { AuthOptions } from "next-auth";
 
-export const authOptions = {
+export const authOptions : AuthOptions = {
   // Configure one or more authentication providers
   providers: [
     GithubProvider({
